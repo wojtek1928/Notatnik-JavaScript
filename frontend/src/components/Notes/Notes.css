@@ -21,20 +21,22 @@
 
 .note button {
     margin: 2px;
-    background-color: rgb(128,70,240);
-    color:#fff;
+    background-color: rgb(128, 70, 240);
+    color: #fff;
     border: 0;
     border-radius: 4px;
     padding: 4px 8px;
     cursor: pointer;
 }
-.note button:hover{
-    background-color: rgb(129,70,200);
+
+.note button:hover {
+    background-color: rgb(129, 70, 200);
 }
 
-.note button.delete{
-    background-color: rgb(238,67,55);
+.note button.delete {
+    background-color: rgb(238, 67, 55);
 }
-.note button.delete:hover{
-    background-color: rgb(223,57,45);
+
+.note button.delete:hover {
+    background-color: rgb(223, 57, 45);
 }
