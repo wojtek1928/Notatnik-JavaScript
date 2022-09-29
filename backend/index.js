@@ -2,14 +2,17 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const { port } = require('./config')    //server config
 const apiRouter = require('./routes/api')  //routes
-
+const cors = require('cors')
 const app = express()
 
 //db
 require('./db/mongoose')
+
 //parsers
-//Constent-type: application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json())  //Constent-type: application/json
+
+//fix cors
+app.use(cors());
 
 //routes
 app.use('/api/', apiRouter)
