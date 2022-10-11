@@ -5,6 +5,8 @@ import NewNote from "./NewNote/NewNote"
 import Modal from 'react-modal'
 import EditNote from "./EditNote/EditNote"
 import axios from "../../axios"
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 class Notes extends React.Component {
     constructor(props) {
@@ -35,25 +37,37 @@ class Notes extends React.Component {
 
     async addNote(note) {
         const notes = [...this.state.notes]
-        // add to backend
-        const res = await axios.post('/notes', note)
-        const newNote = res.data
-        // add to frontend
-        notes.push(newNote)
-        this.setState({ notes });
+
+        try {
+            // add to backend
+            const res = await axios.post('/notes', note)
+            const newNote = res.data
+            // add to frontend
+            notes.push(newNote)
+            this.setState({ notes });
+        } catch (err) {
+            NotificationManager.error(err.response.data.message)
+        }
+
+
     }
 
     async editNote(note) {
-        //edit backend
-        await axios.put(`/notes/${note._id}`, note)
-        //edit frontend
-        const notes = [...this.state.notes]
-        const index = notes.findIndex(item => item._id === note._id)
-        if (index > -1) {
-            notes[index] = note
-            this.setState({ notes });
+        try {
+            //edit backend
+            await axios.put(`/notes/${note._id}`, note)
+            //edit frontend
+            const notes = [...this.state.notes]
+            const index = notes.findIndex(item => item._id === note._id)
+            if (index > -1) {
+                notes[index] = note
+                this.setState({ notes });
+            }
+            this.toggleModal()
+        } catch (err) {
+            NotificationManager.error(err.response.data.message)
         }
-        this.toggleModal()
+
     }
 
     toggleModal() {
@@ -68,6 +82,7 @@ class Notes extends React.Component {
     render() {
         return (
             <div className="App" >
+                <NotificationContainer />
                 <p>Moje notatki:</p>
 
                 <NewNote onAdd={(note) => this.addNote(note)} />
